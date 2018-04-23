@@ -37,7 +37,11 @@
 
 			<div class="slides">
 
-				<section></section>
+				<section>
+					<aside class="notes">
+						<p>01:30</p>
+					</aside>
+				</section>
 
 				<section>
 					<h1>Fever Labs Inc.</h1>
@@ -46,6 +50,7 @@
 						<small>Presenta: <a href="http://fjfnaranjo.com">Naranjo</a>, Backend Tech Lead en <a href="http://feverup.com">Fever</a></small>
 					</p>
 					<aside class="notes">
+						<p>03:00</p>
 						<ul>
 							<li>Introduce yourself.</li>
 							<li>Talk about your position.</li>
@@ -64,6 +69,7 @@
 						Metodología para desarrollar aplicaciones SAAS (software-as-a-service)
 						</p>
 						<aside class="notes">
+							<p>06:00</p>
 							<p>Software as a service (web apps, apis or other software-as-a-service), is getting popular.</p>
 							<p>Component based apps and microservices are also getting popular.</p>
 							<p>Two new roles (forced specialization):</p>
@@ -77,30 +83,35 @@
 					<section>
 						<p>formatos declarativos</p>
 						<aside class="notes">
+							<p>07:00</p>
 							<p>Use declarative formats for setup automation, to minimize time and cost for new developers joining the project</p>
 						</aside>
 					</section>
 					<section>
 						<p>contrato sencillo</p>
 						<aside class="notes">
+							<p>08:00</p>
 							<p>Have a clean contract with the underlying operating system, offering maximum portability between execution environments</p>
 						</aside>
 					</section>
 					<section>
 						<p>plataformas en la nube</p>
 						<aside class="notes">
+							<p>09:00</p>
 							<p>Are suitable for deployment on modern cloud platforms, obviating the need for servers and systems administration</p>
 						</aside>
 					</section>
 					<section>
 						<p>desarrollo ~= producción</p>
 						<aside class="notes">
+							<p>10:00</p>
 							<p>Minimize divergence between development and production, enabling continuous deployment for maximum agility</p>
 						</aside>
 					</section>
 					<section>
 						<p>escala</p>
 						<aside class="notes">
+							<p>11:00</p>
 							<p>And can scale up without significant changes to tooling, architecture, or development practices</p>
 						</aside>
 					</section>
@@ -109,6 +120,7 @@
 				<section>
 					<h2>Los 12 factores</h2>
 					<aside class="notes">
+						<p>11:30</p>
 						<p>12 factors to ensure the previous list of objectives.</p>
 					</aside>
 				</section>
@@ -118,14 +130,17 @@
 						<h2>I. Un sólo código fuente</h2>
 						<p>El mismo código, bajo control de versiones, se utiliza para todos los depliegues.</p>
 						<aside class="notes">
+							<p>13:00</p>
 							<p>Same cannonical source for everyone.</p>
 							<p>Already a distribution system.</p>
 							<p>Don't use a VCS to distribute the builds.</p>
+							<p>Extra features for easy versioning.</p>
 						</aside>
 					</section>
 					<section>
 						<p>Si hay más de un repositorio, no es una aplicación, es un sistema distribuído.</p>
 						<aside class="notes">
+							<p>14:30</p>
 							<p>Out of the scope.</p>
 							<p>Change the architecture. It will pay off.</p>
 						</aside>
@@ -133,6 +148,7 @@
 					<section>
 						<p>Si se repite código entre distintas aplicaciones, hay que extraerlo y formar una librería con él.</p>
 						<aside class="notes">
+							<p>15:30</p>
 							<p>It will become a dependency for other projects.</p>
 						</aside>
 					</section>
@@ -143,7 +159,7 @@
 						<h2>II. Dependencias explícitas</h2>
 						<p>Declaración explicita de dependencias.</p>
 						<aside class="notes">
-							<p></p>
+							<p>16:30</p>
 						</aside>
 					</section>
   				<section>
@@ -152,6 +168,7 @@
 						<p>&nbsp;</p>
 						<p>pipenv</p>
 						<aside class="notes">
+							<p>18:30</p>
 							<p>Present both concepts.</p>
 							<p>Talk briefly about virtualenvs inside Docker images for non-priviledged execution.</p>
 						</aside>
@@ -164,6 +181,9 @@ uWSGI&gt;=2.0,&lt;2.1
 celery&gt;=4.1,&lt;4.2
 django-redis&gt;=4.9,&lt;4.10
 						</pre>
+						<aside class="notes">
+							<p>19:00</p>
+						</aside>
 					</section>
 				</section>
 
@@ -172,6 +192,7 @@ django-redis&gt;=4.9,&lt;4.10
 						<h2>III. Configuración en el environment</h2>
 						<p></p>
 						<aside class="notes">
+							<p>21:00</p>
 							<p>Lee desde el environment la configuración de los servicios y los credenciales.</p>
 						</aside>
 					</section>
@@ -184,6 +205,9 @@ DB_HOST=postgresql
 DB_USER=twelvefactorapp
 DB_PASS=twelvefactorapp
 						</pre>
+						<aside class="notes">
+							<p>21:30</p>
+						</aside>
 					</section>
 					<section>
 						<pre><code class="hlpy" data-trim contenteditable>
@@ -200,6 +224,9 @@ DEBUG = env('DEBUG')
 
 ...
 						</code></pre>
+						<aside class="notes">
+							<p>22:30</p>
+						</aside>
 					</section>
 				</section>
 
@@ -207,6 +234,7 @@ DEBUG = env('DEBUG')
 					<h2>IV. Servicios desconectables</h2>
 					<p>Trata cualquier servicio externo como un servicio que puede estar no disponible.</p>
 					<aside class="notes">
+						<p>25:00</p>
 						<p>Fracasa de manera elegante.</p>
 						<p>Funcionalidad mínima.</p>
 						<p>Usa el cache.</p>
@@ -220,6 +248,7 @@ DEBUG = env('DEBUG')
 						<h2>V. Compila, Publica, Despliega</h2>
 						<p>Separa estrictamente la construcción de la versión ejecutable del despliegue.</p>
 						<aside class="notes">
+							<p>27:30</p>
 							<p>En un sitio, usas el VCS para construir una images/ejecutable.</p>
 							<p>En otro, descarga la imagen/ejecutable y lánzala con su env.</p>
 						</aside>
@@ -229,12 +258,18 @@ DEBUG = env('DEBUG')
 docker build -t twelvefactor-uwsgi:1.0.43 .
 docker push twelvefactor-uwsgi:1.0.43
 						</pre>
+						<aside class="notes">
+							<p>28:00</p>
+						</aside>
 					</section>
 					<section>
 						<pre>
 docker pull twelvefactor-uwsgi:1.0.43
 docker run twelvefactor-uwsgi:1.0.43
 						</pre>
+						<aside class="notes">
+							<p>28:30</p>
+						</aside>
 					</section>
 				</section>
 
@@ -242,7 +277,9 @@ docker run twelvefactor-uwsgi:1.0.43
 					<h2>VI. Procesos</h2>
 					<p>La aplicación debe estar compuesta de procesos independientes y carentes de estado.</p>
 					<aside class="notes">
+						<p>30:00</p>
 						<p>Por temas de escalabilidad.</p>
+						<p>Docker!.</p>
 					</aside>
 				</section>
 
@@ -250,6 +287,7 @@ docker run twelvefactor-uwsgi:1.0.43
 					<h2>VII. Puertos TCP</h2>
 					<p>La aplicación se conecta con el exterior a través de puertos TCP.</p>
 					<aside class="notes">
+						<p>31:30</p>
 						<p>Esencial para simplificar el contrato.</p>
 						<p>Ampliamente disponible/usado hoy en día.</p>
 					</aside>
@@ -259,6 +297,7 @@ docker run twelvefactor-uwsgi:1.0.43
 					<h2>VIII. Concurrencia</h2>
 					<p>Diseña la aplicación de forma que el trabajo de los procesos pueda ser repartido si varios de estos se lanzan a la vez.</p>
 					<aside class="notes">
+						<p>33:30</p>
 						<p>Por temas de escalabilidad.</p>
 					</aside>
 				</section>
@@ -267,6 +306,7 @@ docker run twelvefactor-uwsgi:1.0.43
 					<h2>IX. Desechabilidad</h2>
 					<p>Reduce el tiempo de inicio y acepta señales para detener los procesos de forma fiable.</p>
 					<aside class="notes">
+						<p>35:00</p>
 						<p>Fiabilidad.</p>
 					</aside>
 				</section>
@@ -275,6 +315,7 @@ docker run twelvefactor-uwsgi:1.0.43
 					<h2>X. Paridad entre entornos</h2>
 					<p>Replica los servicios, procesos y su estructura a través de desarrollo, pre-producción y producción.</p>
 					<aside class="notes">
+						<p>37:30</p>
 						<p>Eficacia de los distintos tipos de testing que implementemos.</p>
 						<p>Facilitamos el trabajo de QA, confirmaciones manuales, traductores, ...</p>
 					</aside>
@@ -285,6 +326,7 @@ docker run twelvefactor-uwsgi:1.0.43
 						<h2>XI. Logs</h2>
 						<p>Trata todo el logging de la aplicación como un flujo de eventos de texto.</p>
 						<aside class="notes">
+							<p>39:30</p>
 							<p>To exploit both Docker logging and ELK.</p>
 						</aside>
 					</section>
@@ -313,6 +355,10 @@ LOGGING = {
     }
 }
 						</code></pre>
+						<aside class="notes">
+							<p>40:30</p>
+							<p>To exploit both Docker logging and ELK.</p>
+						</aside>
 					</section>
 				</section>
 
@@ -321,6 +367,7 @@ LOGGING = {
 						<h2>XII. Intervenciones sobre la plataforma o servicios</h2>
 						<p>Las tareas de admistración y la intervención sobre la aplicación una vez lanzada comparten condiciones y código con los procesos en ejecución.</p>
 						<aside class="notes">
+							<p>42:00</p>
 							<p>Fundamental para evitar errores como consecuencia de que los distintos componentes no estén sincronizados.</p>
 							<p>Ayudas visuales para separar los entornos.</p>
 						</aside>
@@ -328,6 +375,9 @@ LOGGING = {
 					<section>
 						<p>Django Admin !</p>
 						<p>shell or shell_plus</p>
+						<aside class="notes">
+							<p>43:00</p>
+						</aside>
 					</section>
 				</section>
 
