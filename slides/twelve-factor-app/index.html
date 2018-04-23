@@ -45,6 +45,15 @@
 					<p>
 						<small>Presenta: <a href="http://fjfnaranjo.com">Naranjo</a>, Backend Tech Lead en <a href="http://feverup.com">Fever</a></small>
 					</p>
+					<aside class="notes">
+						<ul>
+							<li>Introduce yourself.</li>
+							<li>Talk about your position.</li>
+							<li>Talk about the backend project.</li>
+							<li>Talk about the transition to a container approach.</li>
+							<li>Talk about how are we using Twelve-Factor app.</li>
+						</ul>
+					</aside>
 				</section>
 
 				<section>
@@ -55,8 +64,14 @@
 						Metodología para desarrollar aplicaciones SAAS (software-as-a-service)
 						</p>
 						<aside class="notes">
-							<p>In the modern era, software is commonly delivered as a service: called web apps, or software-as-a-service</p>
-							<p>Any developer building applications which run as a service. Ops engineers who deploy or manage such applications.</p>
+							<p>Software as a service (web apps, apis or other software-as-a-service), is getting popular.</p>
+							<p>Component based apps and microservices are also getting popular.</p>
+							<p>Two new roles (forced specialization):</p>
+							<ul>
+								<li>Developers build applications which run as a service.</li>
+								<li>Ops deploy or manage such applications.</li>
+							</ul>
+							<p>General objectives incomming:</p>
 						</aside>
 					</section>
 					<section>
@@ -93,32 +108,38 @@
 
 				<section>
 					<h2>Los 12 factores</h2>
+					<aside class="notes">
+						<p>12 factors to ensure the previous list of objectives.</p>
+					</aside>
 				</section>
 
 				<section>
-  				<section>
+					<section>
 						<h2>I. Un sólo código fuente</h2>
 						<p>El mismo código, bajo control de versiones, se utiliza para todos los depliegues.</p>
 						<aside class="notes">
-							<p></p>
+							<p>Same cannonical source for everyone.</p>
+							<p>Already a distribution system.</p>
+							<p>Don't use a VCS to distribute the builds.</p>
 						</aside>
 					</section>
-  				<section>
+					<section>
 						<p>Si hay más de un repositorio, no es una aplicación, es un sistema distribuído.</p>
 						<aside class="notes">
-							<p></p>
+							<p>Out of the scope.</p>
+							<p>Change the architecture. It will pay off.</p>
 						</aside>
 					</section>
-  				<section>
+					<section>
 						<p>Si se repite código entre distintas aplicaciones, hay que extraerlo y formar una librería con él.</p>
 						<aside class="notes">
-							<p></p>
+							<p>It will become a dependency for other projects.</p>
 						</aside>
 					</section>
 				</section>
 
 				<section>
-  				<section>
+					<section>
 						<h2>II. Dependencias explícitas</h2>
 						<p>Declaración explicita de dependencias.</p>
 						<aside class="notes">
@@ -126,139 +147,196 @@
 						</aside>
 					</section>
   				<section>
-						<p>requirements.txt</p>
 						<p>virtualenv</p>
+						<p>requirements.txt</p>
+						<p>&nbsp;</p>
 						<p>pipenv</p>
 						<aside class="notes">
-							<p></p>
+							<p>Present both concepts.</p>
+							<p>Talk briefly about virtualenvs inside Docker images for non-priviledged execution.</p>
 						</aside>
+					</section>
+					<section>
+						<pre>
+Django&gt;=2.0,&lt;2.1
+django-environ&gt;=0.4,&lt;0.5
+uWSGI&gt;=2.0,&lt;2.1
+celery&gt;=4.1,&lt;4.2
+django-redis&gt;=4.9,&lt;4.10
+						</pre>
 					</section>
 				</section>
 
 				<section>
-  				<section>
+					<section>
 						<h2>III. Configuración en el environment</h2>
 						<p></p>
 						<aside class="notes">
 							<p>Lee desde el environment la configuración de los servicios y los credenciales.</p>
 						</aside>
 					</section>
-				</section>
+					<section>
+						<pre>
+DEBUG=True
+RE_LOCATION=redis
+DB_DNAME=twelvefactorapp
+DB_HOST=postgresql
+DB_USER=twelvefactorapp
+DB_PASS=twelvefactorapp
+						</pre>
+					</section>
+					<section>
+						<pre><code class="hlpy" data-trim contenteditable>
+import environ
 
-				<section>
-  				<section>
-						<h2>IV. Servicios desconectables</h2>
-						<p>Trata cualquier servicio externo como un servicio que puede estar no disponible.</p>
-						<aside class="notes">
-							<p></p>
-						</aside>
+
+env = environ.Env(
+    DEBUG=(bool, False),
+)
+environ.Env.read_env()
+
+
+DEBUG = env('DEBUG')
+
+...
+						</code></pre>
 					</section>
 				</section>
 
 				<section>
-  				<section>
+					<h2>IV. Servicios desconectables</h2>
+					<p>Trata cualquier servicio externo como un servicio que puede estar no disponible.</p>
+					<aside class="notes">
+						<p>Fracasa de manera elegante.</p>
+						<p>Funcionalidad mínima.</p>
+						<p>Usa el cache.</p>
+						<p>Keep trying to work.</p>
+						<p>Explicit maintenance modes for known service operations.</p>
+					</aside>
+				</section>
+
+				<section>
+					<section>
 						<h2>V. Compila, Publica, Despliega</h2>
 						<p>Separa estrictamente la construcción de la versión ejecutable del despliegue.</p>
 						<aside class="notes">
-							<p></p>
+							<p>En un sitio, usas el VCS para construir una images/ejecutable.</p>
+							<p>En otro, descarga la imagen/ejecutable y lánzala con su env.</p>
 						</aside>
+					</section>
+					<section>
+						<pre>
+docker build -t twelvefactor-uwsgi:1.0.43 .
+docker push twelvefactor-uwsgi:1.0.43
+						</pre>
+					</section>
+					<section>
+						<pre>
+docker pull twelvefactor-uwsgi:1.0.43
+docker run twelvefactor-uwsgi:1.0.43
+						</pre>
 					</section>
 				</section>
 
 				<section>
-  				<section>
-						<h2>VI. Procesos</h2>
-						<p>La aplicación debe estar compuesta de procesos independientes y carentes de estado.</p>
-						<aside class="notes">
-							<p></p>
-						</aside>
-					</section>
+					<h2>VI. Procesos</h2>
+					<p>La aplicación debe estar compuesta de procesos independientes y carentes de estado.</p>
+					<aside class="notes">
+						<p>Por temas de escalabilidad.</p>
+					</aside>
 				</section>
 
 				<section>
-  				<section>
-						<h2>VII. Puertos TCP</h2>
-						<p>La aplicación se conecta con el exterior a través de puertos TCP.</p>
-						<aside class="notes">
-							<p></p>
-						</aside>
-					</section>
+					<h2>VII. Puertos TCP</h2>
+					<p>La aplicación se conecta con el exterior a través de puertos TCP.</p>
+					<aside class="notes">
+						<p>Esencial para simplificar el contrato.</p>
+						<p>Ampliamente disponible/usado hoy en día.</p>
+					</aside>
 				</section>
 
 				<section>
-  				<section>
-						<h2>VIII. Concurrencia</h2>
-						<p>Diseña la aplicación de forma que el trabajo de los procesos pueda ser repartido si varios de estos se lanzan a la vez.</p>
-						<aside class="notes">
-							<p></p>
-						</aside>
-					</section>
+					<h2>VIII. Concurrencia</h2>
+					<p>Diseña la aplicación de forma que el trabajo de los procesos pueda ser repartido si varios de estos se lanzan a la vez.</p>
+					<aside class="notes">
+						<p>Por temas de escalabilidad.</p>
+					</aside>
 				</section>
 
 				<section>
-  				<section>
-						<h2>IX. Desechabilidad</h2>
-						<p>Reduce el tiempo de inicio y acepta señales para detener los procesos de forma fiable.</p>
-						<aside class="notes">
-							<p></p>
-						</aside>
-					</section>
+					<h2>IX. Desechabilidad</h2>
+					<p>Reduce el tiempo de inicio y acepta señales para detener los procesos de forma fiable.</p>
+					<aside class="notes">
+						<p>Fiabilidad.</p>
+					</aside>
 				</section>
 
 				<section>
-  				<section>
-						<h2>X. Paridad entre entornos</h2>
-						<p>Replica los servicios, procesos y su estructura a través de desarrollo, pre-producción y producción.</p>
-						<aside class="notes">
-							<p></p>
-						</aside>
-					</section>
+					<h2>X. Paridad entre entornos</h2>
+					<p>Replica los servicios, procesos y su estructura a través de desarrollo, pre-producción y producción.</p>
+					<aside class="notes">
+						<p>Eficacia de los distintos tipos de testing que implementemos.</p>
+						<p>Facilitamos el trabajo de QA, confirmaciones manuales, traductores, ...</p>
+					</aside>
 				</section>
 
 				<section>
-  				<section>
+					<section>
 						<h2>XI. Logs</h2>
 						<p>Trata todo el logging de la aplicación como un flujo de eventos de texto.</p>
 						<aside class="notes">
-							<p></p>
+							<p>To exploit both Docker logging and ELK.</p>
 						</aside>
 					</section>
 					<section>
 						<pre><code class="hlpy" data-trim contenteditable>
-function linkify( selector ) {
-  if( supports3DTransforms ) {
-
-    var nodes = document.querySelectorAll( selector );
-
-    for( var i = 0, len = nodes.length; i &lt; len; i++ ) {
-      var node = nodes[i];
-
-      if( !node.className ) {
-        node.className += ' roll';
-      }
+LOGGING = {
+  'version': 1,
+  'disable_existing_loggers': False,
+  'formatters': {
+      'simple': {
+            'format': '%(levelname)s %(message)s'
+        },
+  },
+  'handlers': {
+        'console': {
+            'level': 'INFO',
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple'
+        },
+  },
+  'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'propagate': True,
+        },
     }
-  }
 }
 						</code></pre>
 					</section>
 				</section>
 
 				<section>
-  				<section>
+					<section>
 						<h2>XII. Intervenciones sobre la plataforma o servicios</h2>
 						<p>Las tareas de admistración y la intervención sobre la aplicación una vez lanzada comparten condiciones y código con los procesos en ejecución.</p>
 						<aside class="notes">
-							<p></p>
+							<p>Fundamental para evitar errores como consecuencia de que los distintos componentes no estén sincronizados.</p>
+							<p>Ayudas visuales para separar los entornos.</p>
 						</aside>
+					</section>
+					<section>
+						<p>Django Admin !</p>
+						<p>shell or shell_plus</p>
 					</section>
 				</section>
 
 				<section style="text-align: left;">
-					<h1>THE END</h1>
-					<p>
-						- <a href="https://slides.com">Try the online editor</a> <br>
-						- <a href="https://github.com/hakimel/reveal.js">Source code &amp; documentation</a>
-					</p>
+					<h2>GRACIAS POR ATENDER</h2>
+					<p>:)</p>
+					<aside class="notes">
+						<p>Preguntas</p>
+					</aside>
 				</section>
 
 			</div>
