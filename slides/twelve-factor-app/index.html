@@ -37,7 +37,10 @@
 
 			<div class="slides">
 
+				<section></section>
+
 				<section>
+					<img style="border:none;background:none;box-shadow:none;" src="bin/fever-logo.png">
 					<aside class="notes">
 						<p>01:30</p>
 					</aside>
@@ -65,9 +68,8 @@
 					<section>
 						<img src="bin/12-factor-symbol.png">
 						<h2>The twelve-factor app</h2>
-						<p>
-						Metodología para desarrollar aplicaciones SAAS (software-as-a-service)
-						</p>
+						<p>Metodología para desarrollar aplicaciones SAAS (software-as-a-service)</p>
+						<p>The Twelve-Factor App - <a href="https://12factor.net/">https://12factor.net/</a></p>
 						<aside class="notes">
 							<p>06:00</p>
 							<p>Software as a service (web apps, apis or other software-as-a-service), is getting popular.</p>
@@ -82,35 +84,19 @@
 					</section>
 					<section>
 						<p>formatos declarativos</p>
+						<p class="fragment">contrato sencillo</p>
+						<p class="fragment">plataformas en la nube</p>
+						<p class="fragment">desarrollo ~= producción</p>
+						<p class="fragment">escala</p>
 						<aside class="notes">
 							<p>07:00</p>
 							<p>Use declarative formats for setup automation, to minimize time and cost for new developers joining the project</p>
-						</aside>
-					</section>
-					<section>
-						<p>contrato sencillo</p>
-						<aside class="notes">
 							<p>08:00</p>
 							<p>Have a clean contract with the underlying operating system, offering maximum portability between execution environments</p>
-						</aside>
-					</section>
-					<section>
-						<p>plataformas en la nube</p>
-						<aside class="notes">
 							<p>09:00</p>
 							<p>Are suitable for deployment on modern cloud platforms, obviating the need for servers and systems administration</p>
-						</aside>
-					</section>
-					<section>
-						<p>desarrollo ~= producción</p>
-						<aside class="notes">
 							<p>10:00</p>
 							<p>Minimize divergence between development and production, enabling continuous deployment for maximum agility</p>
-						</aside>
-					</section>
-					<section>
-						<p>escala</p>
-						<aside class="notes">
 							<p>11:00</p>
 							<p>And can scale up without significant changes to tooling, architecture, or development practices</p>
 						</aside>
@@ -382,8 +368,24 @@ LOGGING = {
 				</section>
 
 				<section style="text-align: left;">
+					<table><tbody>
+						<tr><td>Un solo código fuente</td><td>Puertos TCP</td></tr>
+						<tr><td>Dependencias explícitas</td><td>Concurrencia</td></tr>
+						<tr><td>Configuración en el environment</td><td>Desechabilidad</td></tr>
+						<tr><td>Servicios desconectables</td><td>Paridad entre entornos</td></tr>
+						<tr><td>Compila, publica, despliega</td><td>Logs</td></tr>
+						<tr><td>Procesos</td><td>Intervenciones sobre la plataforma</td></tr>
+					</tbody></table>
+					<aside class="notes">
+						<p>Preguntas</p>
+					</aside>
+				</section>
+
+				<section style="text-align: left;">
 					<h2>GRACIAS POR ATENDER</h2>
 					<p>:)</p>
+					<p>&nbsp;</p>
+					<p>The Twelve-Factor App - <a href="https://12factor.net/">https://12factor.net/</a></p>
 					<aside class="notes">
 						<p>Preguntas</p>
 					</aside>
