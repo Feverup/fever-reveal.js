@@ -1,0 +1,419 @@
+<!doctype html>
+<html lang="es">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>Twelve-Factor app para servicios en Python</title>
+
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<link rel="stylesheet" href="../../css/reveal.css">
+		<link rel="stylesheet" href="../../css/theme/black.css" id="theme">
+
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="../../lib/css/zenburn.css">
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? '../../css/print/pdf.css' : '../../css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="../../lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<div class="slides">
+
+				<section></section>
+
+				<section>
+					<img style="border:none;background:none;box-shadow:none;" src="bin/fever-logo.png">
+				</section>
+
+				<section>
+					<h1>Fever Labs Inc.</h1>
+					<h2>Twelve-Factor app para servicios en Python</h2>
+					<p>
+						<small>Presenta: <a href="http://fjfnaranjo.com">Naranjo</a>, Backend Tech Lead en <a href="http://feverup.com">Fever</a></small>
+					</p>
+					<aside class="notes">
+						<p>01:30</p>
+						<ul>
+							<li>Introduce yourself.</li>
+							<li>Talk about your position.</li>
+							<li>Talk about the backend project.</li>
+							<li>Talk about the transition to a container approach.</li>
+							<li>Talk about how are we using Twelve-Factor app.</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<section>
+						<img src="bin/12-factor-symbol.png">
+						<h2>The twelve-factor app</h2>
+						<p>Metodología para desarrollar aplicaciones SAAS (software-as-a-service)</p>
+						<p>The Twelve-Factor App - <a href="https://12factor.net/">https://12factor.net/</a></p>
+						<aside class="notes">
+							<p>03:00</p>
+							<p>Software as a service (web apps, apis or other software-as-a-service), is getting popular.</p>
+							<p>Component based apps and microservices are also getting popular.</p>
+							<p>Two new roles (forced specialization):</p>
+							<ul>
+								<li>Developers build applications which run as a service.</li>
+								<li>Ops deploy or manage such applications.</li>
+							</ul>
+							<p>General objectives incomming:</p>
+						</aside>
+					</section>
+					<section>
+						<p>formatos declarativos</p>
+						<p class="fragment">contrato sencillo</p>
+						<p class="fragment">plataformas en la nube</p>
+						<p class="fragment">desarrollo ~= producción</p>
+						<p class="fragment">escala</p>
+						<aside class="notes">
+							<p>03:30</p>
+							<p>Use declarative formats for setup automation, to minimize time and cost for new developers joining the project</p>
+							<p>04:00</p>
+							<p>Have a clean contract with the underlying operating system, offering maximum portability between execution environments</p>
+							<p>04:30</p>
+							<p>Are suitable for deployment on modern cloud platforms, obviating the need for servers and systems administration</p>
+							<p>05:00</p>
+							<p>Minimize divergence between development and production, enabling continuous deployment for maximum agility</p>
+							<p>05:30</p>
+							<p>And can scale up without significant changes to tooling, architecture, or development practices</p>
+						</aside>
+					</section>
+				</section>
+
+				<section>
+					<h2>Los 12 factores</h2>
+					<aside class="notes">
+						<p>06:30</p>
+						<p>12 factors to ensure the previous list of objectives.</p>
+					</aside>
+				</section>
+
+				<section>
+					<section>
+						<h2>I. Un sólo código fuente</h2>
+						<p>El mismo código, bajo control de versiones, se utiliza para todos los depliegues.</p>
+						<aside class="notes">
+							<p>07:30</p>
+							<p>Same cannonical source for everyone.</p>
+							<p>Already a distribution system.</p>
+							<p>Don't use a VCS to distribute the builds.</p>
+							<p>Extra features for easy versioning.</p>
+						</aside>
+					</section>
+					<section>
+						<p>Si hay más de un repositorio, no es una aplicación, es un sistema distribuido.</p>
+						<aside class="notes">
+							<p>08:30</p>
+							<p>Out of the scope.</p>
+							<p>Change the architecture. It will pay off.</p>
+						</aside>
+					</section>
+					<section>
+						<p>Si se repite código entre distintas aplicaciones, hay que extraerlo y formar una librería.</p>
+						<aside class="notes">
+							<p>09:30</p>
+							<p>It will become a dependency for other projects.</p>
+						</aside>
+					</section>
+				</section>
+
+				<section>
+					<section>
+						<h2>II. Dependencias explícitas</h2>
+						<p>Declaración explícita de dependencias.</p>
+						<aside class="notes">
+							<p>10:00</p>
+						</aside>
+					</section>
+  				<section>
+						<p>virtualenv</p>
+						<p>requirements.txt</p>
+						<aside class="notes">
+							<p>11:00</p>
+							<p>Present both concepts.</p>
+							<p>Talk briefly about virtualenvs inside Docker images for non-priviledged execution.</p>
+						</aside>
+					</section>
+					<section>
+						<pre>
+Django&gt;=2.0,&lt;2.1
+django-environ&gt;=0.4,&lt;0.5
+uWSGI&gt;=2.0,&lt;2.1
+celery&gt;=4.1,&lt;4.2
+django-redis&gt;=4.9,&lt;4.10
+						</pre>
+						<aside class="notes">
+							<p>11:30</p>
+						</aside>
+					</section>
+				</section>
+
+				<section>
+					<section>
+						<h2>III. Configuración en el environment</h2>
+						<p></p>
+						<aside class="notes">
+							<p>12:00</p>
+							<p>Lee desde el environment la configuración de los servicios y los credenciales.</p>
+						</aside>
+					</section>
+					<section>
+						<pre>
+DEBUG=True
+RE_LOCATION=redis
+DB_DNAME=twelvefactorapp
+DB_HOST=postgresql
+DB_USER=twelvefactorapp
+DB_PASS=twelvefactorapp
+						</pre>
+						<aside class="notes">
+							<p>13:00</p>
+						</aside>
+					</section>
+					<section>
+						<pre><code class="hlpy" data-trim contenteditable>
+import environ
+
+
+env = environ.Env(
+    DEBUG=(bool, False),
+)
+environ.Env.read_env()
+
+
+DEBUG = env('DEBUG')
+
+...
+						</code></pre>
+						<aside class="notes">
+							<p>14:00</p>
+						</aside>
+					</section>
+				</section>
+
+				<section>
+					<h2>IV. Servicios desconectables</h2>
+					<p>Trata cualquier servicio externo como un servicio que puede estar no disponible.</p>
+					<aside class="notes">
+						<p>14:30</p>
+						<p>Fracasa de manera elegante.</p>
+						<p>Funcionalidad mínima.</p>
+						<p>Usa el cache.</p>
+						<p>Keep trying to work.</p>
+						<p>Explicit maintenance modes for known service operations.</p>
+					</aside>
+				</section>
+
+				<section>
+					<section>
+						<h2>V. Compila, Publica, Despliega</h2>
+						<p>Separa estrictamente la construcción de la versión ejecutable del despliegue.</p>
+						<aside class="notes">
+							<p>16:00</p>
+							<p>En un sitio, usas el VCS para construir una images/ejecutable.</p>
+							<p>En otro, descarga la imagen/ejecutable y lánzala con su env.</p>
+						</aside>
+					</section>
+					<section>
+						<pre>
+docker build -t twelvefactor-uwsgi:1.0.43 .
+docker push twelvefactor-uwsgi:1.0.43
+						</pre>
+						<aside class="notes">
+							<p>16:30</p>
+						</aside>
+					</section>
+					<section>
+						<pre>
+docker pull twelvefactor-uwsgi:1.0.43
+docker run twelvefactor-uwsgi:1.0.43
+						</pre>
+						<aside class="notes">
+							<p>17:00</p>
+						</aside>
+					</section>
+				</section>
+
+				<section>
+					<h2>VI. Procesos</h2>
+					<p>La aplicación debe estar compuesta de procesos independientes y carentes de estado.</p>
+					<aside class="notes">
+						<p>18:00</p>
+						<p>Por temas de escalabilidad.</p>
+						<p>Docker!.</p>
+					</aside>
+				</section>
+
+				<section>
+					<h2>VII. Puertos TCP</h2>
+					<p>La aplicación se conecta con el exterior a través de puertos TCP.</p>
+					<aside class="notes">
+						<p>18:30</p>
+						<p>Esencial para simplificar el contrato.</p>
+						<p>Ampliamente disponible/usado hoy en día.</p>
+					</aside>
+				</section>
+
+				<section>
+					<h2>VIII. Concurrencia</h2>
+					<p>Diseña la aplicación de forma que el trabajo de los procesos pueda ser repartido si varios de estos se lanzan a la vez.</p>
+					<aside class="notes">
+						<p>19:30</p>
+						<p>Por temas de escalabilidad.</p>
+					</aside>
+				</section>
+
+				<section>
+					<h2>IX. Desechabilidad</h2>
+					<p>Reduce el tiempo de inicio y acepta señales para detener los procesos de forma fiable.</p>
+					<aside class="notes">
+						<p>20:30</p>
+						<p>Fiabilidad.</p>
+					</aside>
+				</section>
+
+				<section>
+					<h2>X. Paridad entre entornos</h2>
+					<p>Replica los servicios, procesos y su estructura a través de desarrollo, pre-producción y producción.</p>
+					<aside class="notes">
+						<p>22:00</p>
+						<p>Eficacia de los distintos tipos de testing que implementemos.</p>
+						<p>Facilitamos el trabajo de QA, confirmaciones manuales, traductores, ...</p>
+					</aside>
+				</section>
+
+				<section>
+					<section>
+						<h2>XI. Logs</h2>
+						<p>Trata todo el logging de la aplicación como un flujo de eventos de texto.</p>
+						<aside class="notes">
+							<p>23:00</p>
+							<p>To exploit both Docker logging and ELK.</p>
+						</aside>
+					</section>
+					<section>
+						<pre><code class="hlpy" data-trim contenteditable>
+LOGGING = {
+  'version': 1,
+  'disable_existing_loggers': False,
+  'formatters': {
+      'simple': {
+            'format': '%(levelname)s %(message)s'
+        },
+  },
+  'handlers': {
+        'console': {
+            'level': 'INFO',
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple'
+        },
+  },
+  'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'propagate': True,
+        },
+    }
+}
+						</code></pre>
+						<aside class="notes">
+							<p>23:30</p>
+							<p>To exploit both Docker logging and ELK.</p>
+						</aside>
+					</section>
+				</section>
+
+				<section>
+					<section>
+						<h2>XII. Intervenciones sobre la plataforma o servicios</h2>
+						<p>Las tareas de admistración y la intervención sobre la aplicación una vez lanzada comparten condiciones y código con los procesos en ejecución.</p>
+						<aside class="notes">
+							<p>25:00</p>
+							<p>Fundamental para evitar errores como consecuencia de que los distintos componentes no estén sincronizados.</p>
+							<p>Ayudas visuales para separar los entornos.</p>
+						</aside>
+					</section>
+					<section>
+						<p>ipython</p>
+						<aside class="notes">
+							<p>25:30</p>
+						</aside>
+					</section>
+				</section>
+
+				<section style="text-align: left;">
+					<table><tbody>
+						<tr><td>Un solo código fuente</td><td>Puertos TCP</td></tr>
+						<tr><td>Dependencias explícitas</td><td>Concurrencia</td></tr>
+						<tr><td>Configuración en el environment</td><td>Desechabilidad</td></tr>
+						<tr><td>Servicios desconectables</td><td>Paridad entre entornos</td></tr>
+						<tr><td>Compila, publica, despliega</td><td>Logs</td></tr>
+						<tr><td>Procesos</td><td>Intervenciones sobre la plataforma</td></tr>
+					</tbody></table>
+					<aside class="notes">
+						<p>Preguntas</p>
+					</aside>
+				</section>
+
+				<section style="text-align: left;">
+					<h2>GRACIAS POR ATENDER</h2>
+					<p>WE ARE HIRING!!!</p>
+					<p><a href="https://careers.feverup.com">https://careers.feverup.com</a></p>
+					<p>&nbsp;</p>
+					<p>The Twelve-Factor App - <a href="https://12factor.net/">https://12factor.net/</a></p>
+					<aside class="notes">
+						<p>Preguntas</p>
+					</aside>
+				</section>
+
+			</div>
+
+		</div>
+
+		<script src="../../lib/js/head.min.js"></script>
+		<script src="../../js/reveal.js"></script>
+
+		<script>
+
+			// More info https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+				// More info https://github.com/hakimel/reveal.js#dependencies
+				dependencies: [
+					{ src: '../../lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: '../../plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: '../../plugin/search/search.js', async: true },
+					{ src: '../../plugin/notes/notes.js', async: true }
+				]
+			});
+
+		</script>
+
+	</body>
+</html>
